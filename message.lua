@@ -3006,8 +3006,8 @@ btn("Immortality Lord", function()
 		{meshid="76010149115685",textureid="",C0=cf_0,Name="Right Leg"},
 
 		{meshid="126825022897778",textureid="",C0=cf_0,Name="Torso"},
-		{meshid="138744606849121",textureid="83207562332062",C0=angles(0,0,1.5707963267948966),Name="Left Arm"},
-		{meshid="138744606849121",textureid="83207562332062",C0=angles(0,0,1.5707963267948966),Name="Right Arm"},
+		{meshid="138744606849121",textureid="136752500636691",C0=angles(0,0,1.5707963267948966),Name="Left Arm"},
+		{meshid="138744606849121",textureid="136752500636691",C0=angles(0,0,1.5707963267948966),Name="Right Arm"},
 		{meshid="138744606849121",textureid="136752500636691",C0=angles(0,0,1.5707963267948966),Name="Left Leg"},
 		{meshid="138744606849121",textureid="136752500636691",C0=angles(0,0,1.5707963267948966),Name="Right Leg"}
 	}
