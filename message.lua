@@ -2337,6 +2337,62 @@ btn("nameless animations V8", function()
 		modeLeft = function()
 			setWalkSpeed(16)
 		end,
+				addmode("z", {
+        modeEntered = function()
+            setWalkSpeed(25)
+        end,
+
+        idle = function()
+            velYchg()
+
+            -- Left Shoulder Animation
+            LeftShoulder.C0 = LeftShoulder.C0:Lerp(
+                CFrame.new(-1, 0.5, 0) *
+                CFrame.Angles(-3.0543261909900767 - 0.17453292519943295 * math.sin((sine + 1.5) * 1),
+                            -1.5707963267948966 + 0.08726646259971647 * math.sin((sine + 0.6) * 1),
+                            -1.5707963267948966),
+                deltaTime)
+
+            -- Right Shoulder Animation
+            RightShoulder.C0 = RightShoulder.C0:Lerp(
+                CFrame.new(1, 0.5, 0) *
+                CFrame.Angles(3.141592653589793 - 0.08726646259971647 * math.sin(sine * 1),
+                            0.3490658503988659 + 0.08726646259971647 * math.sin((sine + 0.3) * 1),
+                            -1.9198621771937625 + 0.08726646259971647 * math.sin((sine + 1) * 1)),
+                deltaTime)
+
+            -- Neck Animation
+            Neck.C0 = Neck.C0:Lerp(
+                CFrame.new(0, 1, 0) *
+                CFrame.Angles(-1.3089969389957472 - 0.2617993877991494 * math.sin((sine + 1.2) * 1),
+                            0.08726646259971647 * math.sin((sine + 0.2) * 0.5),
+                            -2.9670597283903604),
+                deltaTime)
+
+            -- Root Joint Animation (Main floating effect)
+            RootJoint.C0 = RootJoint.C0:Lerp(
+                CFrame.new(0, 5 - 0.5 * math.sin((sine - 0.2) * 1), 0.2 * math.sin((sine - 1.2) * 1)) *
+                CFrame.Angles(-0.08726646259971647 + 0.17453292519943295 * math.sin((sine + 1.2) * 1),
+                            0.08726646259971647 * math.sin(sine * 0.5),
+                            3.141592653589793),
+                deltaTime)
+
+            -- Left Hip Animation
+            LeftHip.C0 = LeftHip.C0:Lerp(
+                CFrame.new(-1, -1, 0) *
+                CFrame.Angles(1.3962634015954636 + 0.12217304763960307 * math.sin((sine + 1.5) * 1),
+                            -1.2217304763960306 + 0.08726646259971647 * math.sin((sine + 0.2) * 0.5),
+                            1.5707963267948966),
+                deltaTime)
+
+            -- Right Hip Animation
+            RightHip.C0 = RightHip.C0:Lerp(
+                CFrame.new(1, -1, 0) *
+                CFrame.Angles(1.9198621771937625 + 0.12217304763960307 * math.sin((sine + 1.5) * 1),
+                            1.2217304763960306 + 0.08726646259971647 * math.sin((sine + 0.2) * 0.5),
+                            -1.5707963267948966),
+                deltaTime)
+        end,
 	})
 	addmode("g", {
 		idle = function()
