@@ -2131,7 +2131,41 @@ btn("nameless animations V8", function()
 	local RightHip=getJoint("Right Hip")
 	local LeftHip=getJoint("Left Hip")
 	local Neck=getJoint("Neck")
+	local torso=t.getPart("Torso")
+	local rootpart=t.getPart("HumanoidRootPart")
+		
+	local leftWingPart={}
+	cframes[leftWingPart]=cf_0
 
+	local leftWingAccWeld=getAccWeldFromMesh("72227709076689","")
+	leftWingAccWeld.C0=angles(0,3.14,0)
+	leftWingAccWeld.C1=cf_0
+	leftWingAccWeld.Part1=leftWingPart
+
+	local LeftWing={
+		C0=cf(-.3,1,1)*angles(0,1.5707963267948966,0),
+		C1=cf(2.2,2,1.5),
+		Part0=torso,
+		Part1=leftWingPart
+	}
+	tinsert(joints,LeftWing)
+
+	local rightWingPart={}
+	cframes[rightWingPart]=cf_0
+
+	local rightWingAccWeld=getAccWeldFromMesh("114375496001127","")
+	rightWingAccWeld.C0=angles(0,3.14,0)
+	rightWingAccWeld.C1=cf_0
+	rightWingAccWeld.Part1=rightWingPart
+
+	local RightWing={
+		C0=cf(.3,1,1)*angles(0,1.5707963267948966,0),
+		C1=cf(2.2,2,-1.5),
+		Part0=torso,
+		Part1=rightWingPart
+	}
+	tinsert(joints,RightWing)
+		
 	addmode("default", {
 		idle = function()
 			local rY, lY = raycastlegs()
