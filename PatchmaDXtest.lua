@@ -2431,8 +2431,8 @@ btn("nameless animations V8", function()
 	leftWingAccWeld.Part1=leftWingPart
 
 	local LeftWing={
-		C0=cf(0,1,1)*angles(0,0,0),
-		C1=cf(0,1,1),
+		C0=cf(1,1,0)*angles(0,0,0),
+		C1=cf(1,1,0),
 		Part0=torso,
 		Part1=leftWingPart
 	}
