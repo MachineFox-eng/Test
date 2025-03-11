@@ -2632,54 +2632,85 @@ btn("nameless animations V8", function()
 		end
 	})
 	addmode("z", {
-		idle = function()
-			local Ychg = velYchg()/20
-                        local speed = sine * 4
-                        local swingSpeed = sine * 8
-        -- Cabeça e pescoço - movimento mais expressivo como no original
-        Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(
-            -0.1 + 0.15 * sin(swingSpeed), 
-            0.4 * sin(speed), 
-            0.2 * sin(swingSpeed)
-        )), deltaTime * 0.8)
-
-        -- Braços - movimento mais acentuado similar ao Whip/Nae Nae original
-        RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5 + 0.2 * sin(speed), 0), angles(
-            1.4 + 0.4 * sin(speed), 
-            0.6 + 0.3 * sin(speed), 
-            -0.3 + 0.8 * sin(speed)
-        )), deltaTime * 0.7)
-
-        LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5 - 0.2 * sin(speed), 0), angles(
-            1.4 - 0.4 * sin(speed), 
-            -0.6 - 0.3 * sin(speed), 
-            0.3 - 0.8 * sin(speed)
-        )), deltaTime * 0.7)
-
-        -- Pernas - movimento mais rítmico e marcado
-        RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1 - 0.4 * sin(swingSpeed) - Ychg, 0), angles(
-            0.3 * sin(swingSpeed), 
-            1.57 + 0.3 * sin(speed), 
-            0.15 - 0.25 * sin(swingSpeed)
-        )), deltaTime * 0.8)
-
-        LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1 + 0.4 * sin(swingSpeed) - Ychg, 0), angles(
-            -0.3 * sin(swingSpeed), 
-            -1.57 - 0.3 * sin(speed), 
-            -0.15 + 0.25 * sin(swingSpeed)
-        )), deltaTime * 0.8)
-
-        -- Torso - movimento mais fluido e expressivo
-        RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(
-            0.25 * sin(speed), 
-            0.15 + 0.15 * sin(swingSpeed) + Ychg, 
-            0.1 * sin(speed/2)
-        ), angles(
-            -0.15 + 0.1 * sin(speed), 
-            -0.2 * sin(speed * 1.2), 
-            0.15 * sin(swingSpeed)
-        )), deltaTime * 0.7)
-				end
+    modeEntered = function()
+        setWalkSpeed(25)
+    end,
+    
+    idle = function()
+        velYchg()
+        
+        -- Ombros
+        LeftShoulder.C0 = Lerp(
+            LeftShoulder.C0,
+            cfMul(
+                cf(-1, 0.5, 0),
+                angles(-3.0543261909900767 - 0.17453292519943295 * sin((sine + 1.5) * 1), 
+                       -1.5707963267948966 + 0.08726646259971647 * sin((sine + 0.6) * 1), 
+                       -1.5707963267948966)
+            ),
+            deltaTime
+        ) 
+        
+        RightShoulder.C0 = Lerp(
+            RightShoulder.C0,
+            cfMul(
+                cf(1, 0.5, 0),
+                angles(3.141592653589793 - 0.08726646259971647 * sin(sine * 1), 
+                       0.3490658503988659 + 0.08726646259971647 * sin((sine + 0.3) * 1), 
+                       -1.9198621771937625 + 0.08726646259971647 * sin((sine + 1) * 1))
+            ),
+            deltaTime
+        ) 
+        
+        -- Pescoço
+        Neck.C0 = Lerp(
+            Neck.C0,
+            cfMul(
+                cf(0, 1, 0),
+                angles(-1.3089969389957472 - 0.2617993877991494 * sin((sine + 1.2) * 1), 
+                       0.08726646259971647 * sin((sine + 0.2) * 0.5), 
+                       -2.9670597283903604)
+            ),
+            deltaTime
+        ) 
+        
+        -- Torso
+        RootJoint.C0 = Lerp(
+            RootJoint.C0,
+            cfMul(
+                cf(0, 5 - 0.5 * sin((sine - 0.2) * 1), 0.2 * sin((sine - 1.2) * 1)),
+                angles(-0.08726646259971647 + 0.17453292519943295 * sin((sine + 1.2) * 1), 
+                       0.08726646259971647 * sin(sine * 0.5), 
+                       0)
+            ),
+            deltaTime
+        ) 
+        
+        -- Quadris
+        LeftHip.C0 = Lerp(
+            LeftHip.C0,
+            cfMul(
+    (            cf(-1, -1, 0),
+                angles(1.3962634015954636 + 0.12217304763960307 * sin((sine + 1.5) * 1), 
+                       -1.2217304763960306 + 0.08726646259971647 * sin((sine + 0.2) * 0.5), 
+                       1.5707963267948966)
+            ),
+            deltaTime
+        ) 
+        
+        RightHip.C0 = Lerp(
+            RightHip.C0,
+            cfMul(
+                cf(1, -1, 0),
+                angles(1.9198621771937625 + 0.12217304763960307 * sin((sine + 1.5) * 1), 
+                       1.2217304763960306 + 0.08726646259971647 * sin((sine + 0.2) * 0.5), 
+                       -1.5707963267948966)
+            ),
+            deltaTime
+        ) 
+        
+        --LeftArm,-1,0,0,1,-175,-10,1.5,1,0.5,0,0,1,-90,5,0.6,1,0,0,0,1,-90,0,0,1,RightArm,1,0,0,1,180,-5,0,1,0.5,0,0,1,20,5,0.3,1,0,0,0,1,-110,5,1,1,Head,0,0,0,1,-75,-15,1.2,1,1,0,0,1,-0,5,0.2,0.5,0,0,0,1,-170,0,0,1,Torso,0,0,0,1,-5,10,1.2,1,5,-0.5,-0.2,1,-0,5,0,0.5,0,0.2,-1.2,1,180,0,0,1,LeftLeg,-1,0,0,1,80,7,1.5,1,-1,0,0,1,-70,5,0.2,0.5,0,0,0,1,90,0,0,1,RightLeg,1,0,0,1,110,7,1.5,1,-1,0,0,1,70,5,0.2,0.5,0,0,0,1,-90,0,0,1
+					end
 			})
 	addmode("h", {
 		idle = function()
