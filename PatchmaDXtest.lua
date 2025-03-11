@@ -2631,6 +2631,56 @@ btn("nameless animations V8", function()
 			--LeftArm,-0.9,0.4,0,8,90,0,0.25,4,0.5,0,0,8,-90,60,0,8,0,0.5,0.25,4,90,40,0.25,4,Torso,0,0.3,0.4,8,-90,0,0,8,0,0,0,4,0,20,0,8,0,0,0,8,-180,0,0,8,Head,0,0,0,8,-90,3.5,0.125,16,1,0,0,8,0,-22,0,8,0,0,0,8,-180,0,0,1.1,RightLeg,1,0,0,8,90,0,0,8,-1,0.4,-0.01,8,100,40,0,8,0,0,0,8,-90,0,0,8,LeftLeg,-1,0,0,8,90,0,0,8,-1,-0.4,-0.01,8,-100,40,0,8,0,0,0,8,90,0,0,8,RightArm,0.9,0.4,0,8,90,40,0,4,0.5,0,0,8,90,60,0,8,0,-0.5,-0.35,4,-90,10,-0.35,4
 		end
 	})
+	addmode("z", {
+		idle = function()
+			local Ychg = velYchg()/20
+                        local speed = sine * 4
+                        local swingSpeed = sine * 8
+        -- Cabeça e pescoço - movimento mais expressivo como no original
+        Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(
+            -0.1 + 0.15 * sin(swingSpeed), 
+            0.4 * sin(speed), 
+            0.2 * sin(swingSpeed)
+        )), deltaTime * 0.8)
+
+        -- Braços - movimento mais acentuado similar ao Whip/Nae Nae original
+        RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5 + 0.2 * sin(speed), 0), angles(
+            1.4 + 0.4 * sin(speed), 
+            0.6 + 0.3 * sin(speed), 
+            -0.3 + 0.8 * sin(speed)
+        )), deltaTime * 0.7)
+
+        LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5 - 0.2 * sin(speed), 0), angles(
+            1.4 - 0.4 * sin(speed), 
+            -0.6 - 0.3 * sin(speed), 
+            0.3 - 0.8 * sin(speed)
+        )), deltaTime * 0.7)
+
+        -- Pernas - movimento mais rítmico e marcado
+        RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1 - 0.4 * sin(swingSpeed) - Ychg, 0), angles(
+            0.3 * sin(swingSpeed), 
+            1.57 + 0.3 * sin(speed), 
+            0.15 - 0.25 * sin(swingSpeed)
+        )), deltaTime * 0.8)
+
+        LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1 + 0.4 * sin(swingSpeed) - Ychg, 0), angles(
+            -0.3 * sin(swingSpeed), 
+            -1.57 - 0.3 * sin(speed), 
+            -0.15 + 0.25 * sin(swingSpeed)
+        )), deltaTime * 0.8)
+
+        -- Torso - movimento mais fluido e expressivo
+        RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(
+            0.25 * sin(speed), 
+            0.15 + 0.15 * sin(swingSpeed) + Ychg, 
+            0.1 * sin(speed/2)
+        ), angles(
+            -0.15 + 0.1 * sin(speed), 
+            -0.2 * sin(speed * 1.2), 
+            0.15 * sin(swingSpeed)
+        )), deltaTime * 0.7)
+				end
+			})
 	addmode("h", {
 		idle = function()
 			local Ychg=velYchg()/20
