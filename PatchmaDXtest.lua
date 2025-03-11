@@ -828,9 +828,9 @@ end)
 
 local allowshiftlock=nil
 local ctrltp=nil
-local placeholders=nil
-local clickfling=nil
-local highlightflingtargets=nil
+local placeholders=false
+local clickfling=false
+local highlightflingtargets=false
 local discharscripts=nil
 local flingchangestate=nil
 local respawntp=nil
@@ -2507,6 +2507,9 @@ btn("nameless animations V8", function()
 			Neck.C0 = Lerp(Neck.C0,cfMul(cf(0, 1, 0),angles(-1.7453292519943295, 0, -3.141592653589793 - Vrt)),deltaTime) 
 			RightHip.C0 = Lerp(RightHip.C0,cfMul(cf(1, -1, 0),angles(1.5707963267948966 - 0.08726646259971647 * sin((sine + 0.5) * 4), 1.6580627893946132 - 0.06981317007977318 * sin((sine + 0.25) * 4), -1.5707963267948966)),deltaTime) 
 			--Torso,0,0,0,4,-95,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,-180,0,0,4,RightArm,1,0,0,4,230,-5,0.5,4,0.5,0,0,4,100,5,0.25,4,0,0,0,4,-90,0,0,4,LeftLeg,-1,0,0,4,90,-5,0.5,4,-1,0,0,4,-95,4,0.25,4,0,0,0,4,90,0,0,4,LeftArm,-1,0,0,4,230,-5,0.5,4,0.5,0,0,4,-100,-5,0.25,4,0,0,0,4,90,0,0,4,Head,0,0,0,4,-100,0,0.5,4,1,0,0,4,0,0,0.25,4,0,0,0,4,-180,0,0,4,RightLeg,1,0,0,4,90,-5,0.5,4,-1,0,0,4,95,-4,0.25,4,0,0,0,4,-90,0,0,4
+
+			RightWing.C0 = Lerp1(RightWing.C0,cf(0.3,1,1)*angles(0,rad(105-25*cos(TimingSine/25)),0),.25)
+		        LeftWing.C0 = Lerp1(LeftWing.C0,cf(-0.3,1,1)*angles(0,rad(75+25*cos(TimingSine/25)),0),.25)
 		end
 	})
 
