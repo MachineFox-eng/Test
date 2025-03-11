@@ -2425,7 +2425,7 @@ btn("nameless animations V8", function()
 	local leftWingPart={}
 	cframes[leftWingPart]=cf_0
 
-	local leftWingAccWeld=getAccWeldFromMesh("17269814619","")
+	local leftWingAccWeld=getAccWeldFromMesh("72227709076689","")
 	leftWingAccWeld.C0=angles(0,3.14,0)
 	leftWingAccWeld.C1=cf_0
 	leftWingAccWeld.Part1=leftWingPart
@@ -2441,7 +2441,7 @@ btn("nameless animations V8", function()
 		local rightWingPart={}
 	cframes[rightWingPart]=cf_0
 
-	local rightWingAccWeld=getAccWeldFromMesh("17269824947","")
+	local rightWingAccWeld=getAccWeldFromMesh("114375496001127","")
 	rightWingAccWeld.C0=angles(0,3.14,0)
 	rightWingAccWeld.C1=cf_0
 	rightWingAccWeld.Part1=rightWingPart
@@ -2453,6 +2453,12 @@ btn("nameless animations V8", function()
 		Part1=rightWingPart
 	}
 	tinsert(joints,RightWing)
+		
+	local TimingSine=sine*60
+
+	local Lerp1=function(a,b,c)
+	return Lerp(a,b,min(c*6*deltaTime,1))
+	end
 
 ---------------------------------------------------------------
 ---------------------------------------------------------------
@@ -2469,6 +2475,8 @@ btn("nameless animations V8", function()
 			RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1.09-0.1*sin(sine*1.3)+rY-Ychg,rY*-0.5),angles(-0.026179938779914945*sin(sine*1.3),1.3962634015954636,0)),deltaTime) 
 			RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.09+0.1*sin(sine*1.3) + Ychg,0.025 * sin(sine*1.3)),angles(-1.5707963267948966+0.026179938779914945*sin(sine*1.3),0,3.141592653589793)),deltaTime) 
 			Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.53588974175501-0.026179938779914945*sin((sine+1)*1.3),0.05235987755982989*sin((sine-0.6)*0.65),3.141592653589793)),deltaTime) 
+			RightWing.C0 = Lerp1(RightWing.C0,cf(0.3,1,1)*angles(0,rad(105-25*cos(TimingSine/25)),0),.25)
+		        LeftWing.C0 = Lerp1(LeftWing.C0,cf(-0.3,1,1)*angles(0,rad(75+25*cos(TimingSine/25)),0),.25)
 			--MW_animatorProgressSave: LeftArm,-1,0,0,1,30,5,0,1,0.5,0.1,-1,1.3,-85,6,0,1.3,0,0.05,-0.3,1.3,30,0,0,1,RightArm,1,0,0,1,30,5,0,1,0.5,0.1,-1,1.3,85,-6,0,1.3,0,0.05,-0.3,1.3,-30,0,0,1,LeftLeg,-1,0,0,1,-0,-1.5,0,1.3,-1.09,-0.1,0,1.3,-80,0,0,1,0,0,0,1,0,0,0,1,CPlusPlusTextbook_Handle,8.658389560878277e-09,0,0,1,0,0,0,1,-0.25,0,0,1,0,0,0,1,-0.0002722442150115967,0,0,1,0,0,0,1,RightLeg,1,0,0,1,0,-1.5,0,1.3,-1.09,-0.1,0,1.3,80,0,0,1,0,0,0,1,0,0,0,1,Torso,0,0,0,1,-90,1.5,0,1.3,0.09,0.1,0,1.3,-0,0,0,1,0,0.025,0,1.3,180,0,0,1,Head,0,0,0,1,-88,-1.5,1,1.3,1,0,0,1,-0,3,-0.6,0.65,0,0,0,1,180,0,0,1
 		end,
 		walk = function()
