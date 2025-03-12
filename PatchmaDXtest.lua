@@ -2455,6 +2455,16 @@ btn("nameless animations V8", function()
 	tinsert(joints,RightWing)
 		
 	local TimingSine=sine*60
+		-- Garantir que o TimingSine seja atualizado a cada frame
+	_G.sine = sine
+	_G.TimingSine = _G.sine * 60
+	
+	local function atualizarTimingSine()
+		TimingSine = sine * 60  -- Esta é a mesma fórmula usada no V4
+	end
+	
+	-- Garantir que esta função seja chamada a cada frame
+	game:GetService("RunService").RenderStepped:Connect(atualizarTimingSine)
 
 	local Lerp1=function(a,b,c)
 	return Lerp(a,b,min(c*6*deltaTime,1))
