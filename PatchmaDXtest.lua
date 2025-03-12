@@ -2468,7 +2468,7 @@ btn("nameless animations V8", function()
 
 	local Sword={
 		C0=cf(0,-2,0)*angles(1.57,0,0),
-		C1=cf(0,-6.3,0),
+		C1=cf(0,-1,0),
 		Part0=t.getPart("Right Arm"),
 		Part1=swordpart
 	}
