@@ -133,7 +133,7 @@ end
 
 
 
-local USE_METAMETHOD_OPTIMIZATIONS = true
+local USE_METAMETHOD_OPTIMIZATIONS = false
 --[[^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 if this is enabled, patchma will run faster
 and even gain some fps, if disabled, patchma will
