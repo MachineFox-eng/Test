@@ -2447,7 +2447,7 @@ btn("nameless animations V8", function()
 	rightWingAccWeld.Part1=rightWingPart
 
 	local RightWing={
-		C0=cf(1,1,0)*angles(3.14,0,0),
+		C0=cf(1,1,0)*angles(50,0,40),
 		C1=cf(1,1,0),
 		Part0=torso,
 		Part1=rightWingPart
