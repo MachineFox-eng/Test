@@ -2652,16 +2652,18 @@ btn("nameless animations V8", function()
 			--RightArm,1.5,0,0,1,90,0,0,1,0.5,0,0,1,180,0,0,1,0,0,0,1,-90,0,0,1,RightLeg,1,0,0,1,0,0,0,1,-1,0,0,1,90,0,0,1,0,0,0,1,0,0,0,1,Fedora_Handle,8.657480066176504e-09,0,0,1,-6,0,0,1,-0.15052366256713867,0,0,1,0,0,0,1,-0.010221302509307861,0,0,1,0,0,0,1,LeftArm,-1.5,0,0,1,90,0,0,1,0.5,0,0,1,180,0,0,1,0,0,0,1,90,0,0,1,LeftLeg,-1,0,0,1,-0,0,0,1,-1,0,0,1,-90,0,0,1,0,0,0,1,0,0,0,1,Head,0,0,0,1,-90,0,0,1,1,0,0,1,0,0,0,1,0,0,0,1,-180,0,0,1,Torso,0,0,0,1,-90,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,-180,0,0,1
 		end
 	})
-	local jumplerp=function()
-		neck.C0 = Lerp(neck.C0,cfMul(cf(0,0,0.5), angles(0,0,3.141592653589793)),deltaTime) 
-		rootJoint.C0 = Lerp(rootJoint.C0,cfMul(cf(0,-1.4,0), angles(3.141592653589793,0,-3.141592653589793)),deltaTime) 
-		leftShoulder.C0 = Lerp(leftShoulder.C0,cfMul(cf(-1,1.5,0.3), angles(1.7453292519943295,0,-0.17453292519943295)),deltaTime) 
-		rightShoulder.C0 = Lerp(rightShoulder.C0,cfMul(cf(1,1.5,0.3), angles(1.7453292519943295,0,0.17453292519943295)),deltaTime) 
-		leftHip.C0 = Lerp(leftHip.C0,cfMul(cf(-1,-1.5,0.8), angles(1.3962634015954636,0,-0.17453292519943295)),deltaTime) 
-		rightHip.C0 = Lerp(rightHip.C0,cfMul(cf(1,-1.5,0.8), angles(1.3962634015954636,0,0.17453292519943295)),deltaTime)
-	end
-
 	t.addmode("x",{
+		modeEntered = function()
+			setWalkSpeed(10)
+	        local jumplerp=function()
+			velYchg()
+		        neck.C0 = Lerp(neck.C0,cfMul(cf(0,0,0.5), angles(0,0,3.141592653589793)),deltaTime) 
+		        rootJoint.C0 = Lerp(rootJoint.C0,cfMul(cf(0,-1.4,0), angles(3.141592653589793,0,-3.141592653589793)),deltaTime) 
+		        leftShoulder.C0 = Lerp(leftShoulder.C0,cfMul(cf(-1,1.5,0.3), angles(1.7453292519943295,0,-0.17453292519943295)),deltaTime) 
+		        rightShoulder.C0 = Lerp(rightShoulder.C0,cfMul(cf(1,1.5,0.3), angles(1.7453292519943295,0,0.17453292519943295)),deltaTime) 
+		        leftHip.C0 = Lerp(leftHip.C0,cfMul(cf(-1,-1.5,0.8), angles(1.3962634015954636,0,-0.17453292519943295)),deltaTime) 
+		        rightHip.C0 = Lerp(rightHip.C0,cfMul(cf(1,-1.5,0.8), angles(1.3962634015954636,0,0.17453292519943295)),deltaTime)
+	        end,
 		idle=function()
 			velYchg()
 			neck.C0 = Lerp(neck.C0,cfMul(cf(0,0,0.5), angles(0.08726646259971647 * sin((sine + 20) * 0.05),0,3.141592653589793 + 0.3490658503988659 * sin((sine + -30) * 0.025))),deltaTime) 
@@ -2682,6 +2684,9 @@ btn("nameless animations V8", function()
 		end,
 		jump=jumplerp,
 		fall=jumplerp
+		modeLeft = function()
+	        setWalkSpeed(16)
+		end,
 	})
 	addmode("z", {
 		modeEntered = function()
