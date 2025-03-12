@@ -2442,12 +2442,12 @@ btn("nameless animations V8", function()
 	cframes[rightWingPart]=cf_0
 
 	local rightWingAccWeld=getAccWeldFromMesh("114375496001127","")
-	rightWingAccWeld.C0=angles(0,3.14,0)
+	rightWingAccWeld.C0=angles(0,0,0)
 	rightWingAccWeld.C1=cf_0
 	rightWingAccWeld.Part1=rightWingPart
 
 	local RightWing={
-		C0=cf(1,1,0)*angles(0,0,0),
+		C0=cf(1,1,0)*angles(0,0,3.14),
 		C1=cf(1,1,0),
 		Part0=torso,
 		Part1=rightWingPart
