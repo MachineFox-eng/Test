@@ -2457,11 +2457,11 @@ btn("nameless animations V8", function()
 	local swordpart={}
 	cframes[swordpart]=cf_0
 
-	local swordAccWeld0=getAccWeldFromMesh("17326555172","")
+	local swordAccWeld0=getAccWeldFromMesh("115790902130044","")
 	swordAccWeld0.C0=cf(-0.0023765564,2.14191723,3.825109,-1,0,0,0,-0.519688249,-0.85435611,0,-0.854355931,0.519688308)
 	swordAccWeld0.C1=cf_0
 	swordAccWeld0.Part1=swordpart
-	local swordAccWeld1=getAccWeldFromMesh("17326476901","")
+	local swordAccWeld1=getAccWeldFromMesh("","")
 	swordAccWeld1.C0=cf(-0.00237464905,-1.31204176,-3.18902349,-1,0,0,0,-0.519688249,-0.85435611,0,-0.854355931,0.519688308)
 	swordAccWeld1.C1=cf_0
 	swordAccWeld1.Part1=swordpart
