@@ -2670,6 +2670,8 @@ btn("nameless animations V8", function()
 			velYchg()
 			local Vfw, Vrt = velbycfrvec()
 					
+			local fw,rt=velbycfrvec()
+					
 			local rY, lY = raycastlegs()
 
 			local Ychg=velYchg()/20
