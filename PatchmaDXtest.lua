@@ -2453,6 +2453,26 @@ btn("nameless animations V8", function()
 		Part1=rightWingPart
 	}
 	tinsert(joints,RightWing)
+
+	local swordpart={}
+	cframes[swordpart]=cf_0
+
+	local swordAccWeld0=getAccWeldFromMesh("17326555172","")
+	swordAccWeld0.C0=cf(-0.0023765564,2.14191723,3.825109,-1,0,0,0,-0.519688249,-0.85435611,0,-0.854355931,0.519688308)
+	swordAccWeld0.C1=cf_0
+	swordAccWeld0.Part1=swordpart
+	local swordAccWeld1=getAccWeldFromMesh("17326476901","")
+	swordAccWeld1.C0=cf(-0.00237464905,-1.31204176,-3.18902349,-1,0,0,0,-0.519688249,-0.85435611,0,-0.854355931,0.519688308)
+	swordAccWeld1.C1=cf_0
+	swordAccWeld1.Part1=swordpart
+
+	local Sword={
+		C0=cf(0,-2,0)*angles(1.57,0,0),
+		C1=cf(0,-6.3,0),
+		Part0=t.getPart("Right Arm"),
+		Part1=swordpart
+	}
+	tinsert(joints,Sword)
 		
 	local TimingSine=sine*60
 		-- Garantir que o TimingSine seja atualizado a cada frame
