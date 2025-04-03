@@ -2652,6 +2652,16 @@ btn("nameless animations V8", function()
 			--RightArm,1.5,0,0,1,90,0,0,1,0.5,0,0,1,180,0,0,1,0,0,0,1,-90,0,0,1,RightLeg,1,0,0,1,0,0,0,1,-1,0,0,1,90,0,0,1,0,0,0,1,0,0,0,1,Fedora_Handle,8.657480066176504e-09,0,0,1,-6,0,0,1,-0.15052366256713867,0,0,1,0,0,0,1,-0.010221302509307861,0,0,1,0,0,0,1,LeftArm,-1.5,0,0,1,90,0,0,1,0.5,0,0,1,180,0,0,1,0,0,0,1,90,0,0,1,LeftLeg,-1,0,0,1,-0,0,0,1,-1,0,0,1,-90,0,0,1,0,0,0,1,0,0,0,1,Head,0,0,0,1,-90,0,0,1,1,0,0,1,0,0,0,1,0,0,0,1,-180,0,0,1,Torso,0,0,0,1,-90,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,-180,0,0,1
 		end
 	})
+	addmode("c", {
+		idle = function()
+			Animate('RJ',CF.N(0+0*M.S(Sine/24),2.8+0.05*M.S(Sine/43), 1.3+0*M.S(Sine/24)) * CF.A(M.R(27+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/43)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+                        Animate('NK',CF.N(0+0*M.S(Sine/55),1.6+0.01*M.S(Sine/46), -0.03+0*M.S(Sine/24)) * CF.A(M.R(-2+-4*M.S(Sine/55)), M.R(0+0*M.S(Sine/46)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+                        Animate('RS',CF.N(1.2+0*M.S(Sine/55),0.9+0.008*M.S(Sine/46), 0.1+0*M.S(Sine/24)) * CF.A(M.R(189+0.01*M.S(Sine/55)), M.R(-31+0.6*M.S(Sine/46)) ,M.R(-50+0.07*M.S(Sine/24))),0.2,'Lerp')
+                        Animate('LS',CF.N(-1.2+0*M.S(Sine/55),0.9+0*M.S(Sine/46), 0.1+0*M.S(Sine/24)) * CF.A(M.R(189+0.01*M.S(Sine/55)), M.R(31+0.6*M.S(Sine/46)) ,M.R(50+0.07*M.S(Sine/24))),0.2,'Lerp')
+                        Animate('RH',CF.N(0.3+0*M.S(Sine/24),2.3+0*M.S(Sine/24), -0.1+0*M.S(Sine/24)) * CF.A(M.R(120+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(-22+0*M.S(Sine/24))),0.2,'Lerp')
+                        Animate('LH',CF.N(-0.4+0*M.S(Sine/43),2+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(85+2*M.S(Sine/43)), M.R(0+0*M.S(Sine/24)) ,M.R(9+0*M.S(Sine/24))),0.2,'Lerp')
+		end
+	})
 	addmode("x", {
 		modeEntered = function()
 			setWalkSpeed(16)
