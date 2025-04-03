@@ -2654,14 +2654,20 @@ btn("nameless animations V8", function()
 	})
 	addmode("c", {
     		idle = function()
-        		local Ychg=velYchg()/20
-        		RootJoint.C0 = Lerp(RootJoint.C0,cfMul(cf(0, 2.8+0.05*math.sin(sine/43), 1.3),angles(math.rad(27), math.rad(0), math.rad(0))),deltaTime)
-       			Neck.C0 = Lerp(Neck.C0,cfMul(cf(0, 1.6+0.01*math.sin(sine/46), -0.03),angles(math.rad(-2-4*math.sin(sine/55)), math.rad(0), math.rad(0))),deltaTime)
-        		RightShoulder.C0 = Lerp(RightShoulder.C0,cfMul(cf(1.2, 0.9+0.008*math.sin(sine/46), 0.1),angles(math.rad(189+0.01*math.sin(sine/55)), math.rad(-31+0.6*math.sin(sine/46)), math.rad(-50+0.07*math.sin(sine/24)))),deltaTime)
-        		LeftShoulder.C0 = Lerp(LeftShoulder.C0,cfMul(cf(-1.2, 0.9, 0.1),angles(math.rad(189+0.01*math.sin(sine/55)), math.rad(31+0.6*math.sin(sine/46)), math.rad(50+0.07*math.sin(sine/24)))),deltaTime)
-        		RightHip.C0 = Lerp(RightHip.C0,cfMul(cf(0.3, 2.3, -0.1),angles(math.rad(120), math.rad(0), math.rad(-22))),deltaTime)
-        		LeftHip.C0 = Lerp(LeftHip.C0,cfMul(cf(-0.4, 2+0*math.sin(sine/24), 0),angles(math.rad(85+2*math.sin(sine/43)), math.rad(0), math.rad(9))),deltaTime)
-   		end
+        		local Ychg = velYchg()/20
+        
+        		RootJoint.C0 = Lerp(RootJoint.C0,cfMul(cf(0, 2.8+0.05*math.sin(sine*43), 1.3),angles(math.rad(27), 0, 0)),deltaTime)
+        
+        		Neck.C0 = Lerp(Neck.C0,cfMul(cf(0, 1.6+0.01*math.sin(sine*46), -0.03),angles(math.rad(-2-4*math.sin(sine*55)), 0, 0)),deltaTime)
+        
+        		RightShoulder.C0 = Lerp(RightShoulder.C0,cfMul(cf(1.2, 0.9+0.008*math.sin(sine*46), 0.1),angles(math.rad(189+0.01*math.sin(sine*55)), math.rad(-31+0.6*math.sin(sine*46)), math.rad(-50+0.07*math.sin(sine*24)))),deltaTime)
+        
+        		LeftShoulder.C0 = Lerp(LeftShoulder.C0,cfMul(cf(-1.2, 0.9, 0.1),angles(math.rad(189+0.01*math.sin(sine*55)), math.rad(31+0.6*math.sin(sine*46)), math.rad(50+0.07*math.sin(sine*24)))),deltaTime)
+        
+        		RightHip.C0 = Lerp(RightHip.C0,cfMul(cf(0.3, 2.3, -0.1),angles(math.rad(120), 0, math.rad(-22))),deltaTime)
+        
+        		LeftHip.C0 = Lerp(LeftHip.C0,cfMul(cf(-0.4, 2+0*math.sin(sine*24), 0),angles(math.rad(85+2*math.sin(sine*43)), 0, math.rad(9))),deltaTime)
+    		end
 	})
 	addmode("x", {
 		modeEntered = function()
