@@ -431,7 +431,27 @@ Current Emotional State:
     return context
 end
 
--- Modificar a função createConversationContext para incluir o estado emocional
+local conversationTracking = {
+    activeConversations = {},
+    lastInteraction = {},
+    TIMEOUT = 300 -- 5 minutos
+}
+
+function updateConversationTracking(userId)
+    local currentTime = os.time()
+    conversationTracking.lastInteraction[userId] = currentTime
+    conversationTracking.activeConversations[userId] = true
+end
+
+function isActiveConversation(userId)
+    if not conversationTracking.lastInteraction[userId] then
+        return false
+    end
+    local timeSinceLastMessage = os.time() - conversationTracking.lastInteraction[userId]
+    return timeSinceLastMessage < conversationTracking.TIMEOUT
+end
+
+-- Modificar a função createConversationContext para incluir estado da conversa
 local function createConversationContext(newMessage, currentUserId)
     print_debug("Creating conversation context for user ID:", currentUserId)
     
@@ -472,6 +492,8 @@ Regras de Comportamento:
 19. use girias de menina e evite ficar falando igual um menino, vc é uma menina e não um menino, vc é mais delicada e tem um tom mais suave nas conversar
 20. vc é timida então saiba quando falar e quando não presisar falar, não fique falando muito e nem pouco, saiba o que falar e quando falar
 21. evite manda kkk ou muitos k seguidos por conta do filtro de chat do roblox, ria com ksksks
+22. [IMPORTANTE] EVITE USAR BOT: NO COMEÇO DE SUAS FRASES
+23. [IMPORTANTE] EVITE MANDAR MAIS DO QUE SUA MENSAGEM, EXEMPLO: DENTRO DE UMA CONVERSA VC MANDOU BOT:, NEW MENSAGEN: E ESSAS COISAS, EU QUERO QUE EVITE ISSO A TODO CUSTO E REALMENTE SÓ ENVIE SUA MENSAGEM
 
 %s
 
@@ -579,6 +601,15 @@ Se alguém perguntar sobre uma conversa com outra pessoa, SEJA PRECISA e não in
         end
     else
         context = context .. string.format("\nNew message: %s\n", newMessage or "")
+    end
+    
+    if currentUserId then
+        updateConversationTracking(currentUserId)
+        if isActiveConversation(currentUserId) then
+            context = context .. "\nIMPORTANT: This is an active ongoing conversation\n"
+        else
+            context = context .. "\nIMPORTANT: This is a new conversation\n"
+        end
     end
     
     return context
