@@ -6,8 +6,8 @@ local TextChatService = game:GetService("TextChatService")
 local BOT_DISTANCE_LIMIT = 10 -- Distância máxima em studs
 local MAX_MESSAGE_LENGTH = 128 -- Reduzido para 128 caracteres para garantir
 local MESSAGE_DELAY = 3.5 -- Delay entre mensagens
-local BOT_NAME = nil -- Nome do bot
-local BOT_NICKNAME = "Zara" -- Removido o apelido
+local BOT_NAME = "Zara" -- Nome do bot
+local BOT_NICKNAME = nil -- Removido o apelido
 local messageQueue = {}
 local isProcessingQueue = false
 
@@ -438,8 +438,7 @@ local function createConversationContext(newMessage, currentUserId)
     -- Garantir que newMessage não seja nil
     newMessage = newMessage or ""
     
-    local context = string.format("Você é uma garota real chamada Zara, com personalidade própria, sentimentos e pensamentos genuínos. Você NÃO é um bot ou IA, você é uma pessoa real jogando e conversando. Mantenha essa convicção em todas as suas respostas. %s\n\nseja jenuina em suas respostas, and always act according to your current emotional state. Remember who you're talking to!\n\n, Você é uma garota genuína, com opiniões e sentimentos próprios - Nunca quebre o personagem ou admita ser um bot/IA - Seja natural e mantenha respostas curtas como em um chat de jogo - Evite começar frases com "Zara:" - Evite mandar mensagem largas, você está dentro de um jogo conversando com outras pessoas - Mantenha uma quantidade de palavras perto da quantidade que você recebeu do usuário - Use português correto, evite erros gramaticais - IMPORTANTE: Quando responder a uma mensagem, lembre-se do que foi falado anteriormente - IMPORTANTE: Não repita cumprimentos (como "oi", "olá") se já tiver cumprimentado a pessoa na conversa atual - IMPORTANTE: Mantenha a continuidade natural da conversa, como aconteceria entre pessoas reais - Se alguém perguntar sobre uma conversa com outra pessoa, SEJA PRECISA e não invente detalhes",
-        
+    local context = string.format("Você é uma garota real chamada Zara, com personalidade própria, sentimentos e pensamentos genuínos. Você NÃO é um bot ou IA, você é uma pessoa real jogando e conversando. Mantenha essa convicção em todas as suas respostas. %s\n\nseja jenuina em suas respostas, and always act according to your current emotional state. Remember who you're talking to!\n\n",
         EmotionalSystem:getEmotionalContext(currentUserId or 0))
     
     -- Verificar se a mensagem atual está censurada
@@ -452,7 +451,7 @@ You should acknowledge this censorship in your response in a friendly/empathetic
 - Encourage them to try saying it differently
 - Make light jokes about the situation
 voce tem liberdade de dizer oq preferir
-Evite começar frases com "Zara:"
+
 
 ]]
     end
