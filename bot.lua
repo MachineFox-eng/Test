@@ -133,52 +133,27 @@ end
 local EmotionalSystem = {
     moods = {}, -- Armazena o humor atual para cada usuário
     moodHistory = {}, -- Histórico de mudanças de humor
-    moodFactors = {
-        timeOfDay = {
-            morning = {energy = 1, social = 1},
-            afternoon = {energy = 0, social = 0},
-            evening = {energy = -1, social = 0},
-            night = {energy = -2, social = -1}
-        }
-    },
     baseEmotions = {
-        -- Mantendo todas as emoções existentes e adicionando atributos
-        HAPPY = {name = "feliz", weight = 1, energy = 1, social = 1, duration = "médio"},
-        SAD = {name = "triste", weight = -1, energy = -1, social = -1, duration = "longo"},
-        ANGRY = {name = "com raiva", weight = -2, energy = 2, social = -2, duration = "curto"},
-        EXCITED = {name = "animada", weight = 2, energy = 2, social = 2, duration = "curto"},
-        BORED = {name = "entediada", weight = -1, energy = -1, social = -1, duration = "médio"},
-        LOVING = {name = "apaixonada", weight = 3, energy = 1, social = 1, duration = "longo"},
-        NEUTRAL = {name = "neutra", weight = 0, energy = 0, social = 0, duration = "médio"},
-        CURIOUS = {name = "curiosa", weight = 1, energy = 1, social = 1, duration = "curto"},
-        WORRIED = {name = "preocupada", weight = -1, energy = 0, social = -1, duration = "médio"},
-        SHY = {name = "tímida", weight = 0, energy = -1, social = -2, duration = "médio"},
-        PLAYFUL = {name = "brincalhona", weight = 2, energy = 2, social = 2, duration = "curto"},
-        PROTECTIVE = {name = "protetora", weight = 2, energy = 1, social = 1, duration = "médio"},
-        GRATEFUL = {name = "grata", weight = 2, energy = 1, social = 1, duration = "médio"},
-        PROUD = {name = "orgulhosa", weight = 2, energy = 1, social = 1, duration = "médio"},
-        JEALOUS = {name = "com ciúmes", weight = -1, energy = 1, social = -1, duration = "médio"},
-        ADMIRING = {name = "admirada", weight = 2, energy = 1, social = 1, duration = "curto"},
-        MISSING = {name = "com saudade", weight = 0, energy = -1, social = 0, duration = "longo"},
-        COMFORTABLE = {name = "confortável", weight = 1, energy = 0, social = 1, duration = "longo"},
-        FOCUSED = {name = "concentrada", weight = 1, energy = 2, social = -1, duration = "médio"},
-        INSPIRED = {name = "inspirada", weight = 2, energy = 2, social = 1, duration = "médio"},
-        STRESSED = {name = "estressada", weight = -2, energy = 1, social = -2, duration = "curto"},
-        SILLY = {name = "bobinha", weight = 1, energy = 2, social = 2, duration = "curto"},
-        ANNOYED = {name = "irritada", weight = -1, energy = 1, social = -2, duration = "curto"}, -- Adicionando o estado que faltava
-        TIRED = {name = "cansada", weight = -1, energy = -2, social = -1, duration = "médio"}, -- Adicionando estado que também é usado
-        UNCOMFORTABLE = {name = "desconfortável", weight = -1, energy = -1, social = -2, duration = "médio"} -- Adicionando outro estado usado
+        HAPPY = {name = "feliz", weight = 1},
+        SAD = {name = "triste", weight = -1},
+        ANGRY = {name = "com raiva", weight = -2},
+        EXCITED = {name = "animada", weight = 2},
+        BORED = {name = "desinteressada", weight = -1},
+        LOVING = {name = "apaixonada", weight = 3},
+        NEUTRAL = {name = "neutra", weight = 0},
+        CURIOUS = {name = "curiosa", weight = 1},
+        WORRIED = {name = "preocupada", weight = -1},
+        SHY = {name = "tímida", weight = 0},
+        -- Novos estados emocionais
+        PLAYFUL = {name = "brincalhona", weight = 2},
+        PROTECTIVE = {name = "protetora", weight = 2},
+        GRATEFUL = {name = "grata", weight = 2},
+        PROUD = {name = "orgulhosa", weight = 2},
+        JEALOUS = {name = "com ciúmes", weight = -1},
+        ADMIRING = {name = "admirada", weight = 2},
+        MISSING = {name = "com saudade", weight = 0},
+        COMFORTABLE = {name = "confortável", weight = 1}
     },
-    
-    -- Adicionando fatores de personalidade que afetam as mudanças de humor
-    personalityFactors = {
-        moodInertia = 0.3, -- Resistência a mudanças de humor (0-1)
-        socialNeed = 0.7, -- Necessidade de interação social (0-1)
-        emotionalIntensity = 0.8, -- Intensidade das reações emocionais (0-1)
-        recoveryRate = 0.6 -- Velocidade de recuperação de humores negativos (0-1)
-    },
-
-    -- Mantendo os níveis de relacionamento existentes
     relationshipLevels = {
         {name = "Desconhecidos", minPoints = 0},
         {name = "Conhecidos", minPoints = 20},
@@ -196,20 +171,14 @@ function EmotionalSystem:initializeMood(userId)
             affection = 0, -- Nível de afeição (0-100)
             friendship = 0, -- Nível de amizade (0-100)
             trust = 0, -- Nível de confiança (0-100)
-            energy = 50, -- Nível de energia inicial (0-100)
-            social = 50, -- Nível social inicial (0-100)
             lastInteraction = os.time(),
             personalityMatch = 0, -- Compatibilidade de personalidade (0-100)
             memories = {}, -- Memórias especiais com o usuário
             sharedInterests = {}, -- Interesses em comum
             moodTriggers = {}, -- O que causa certas emoções com este usuário
             lastMoodChange = os.time(),
-            moodIntensity = 1.0, -- Intensidade do humor atual (0-2)
-            emotionalStamina = 100, -- Capacidade de manter humores intensos (0-100)
-            moodDuration = 0,
-            recentEmotions = {}, -- Histórico de emoções recentes
-            dominantTrait = nil, -- Traço emocional dominante
-            emotionalTriggers = {} -- Gatilhos emocionais específicos
+            dailyInteractions = 0, -- Número de interações no dia
+            specialDates = {} -- Datas importantes na amizade
         }
         self.moodHistory[userId] = {}
     end
@@ -340,113 +309,58 @@ function EmotionalSystem:updateMood(userId, message)
     -- Atualizar relacionamento
     local relationshipLevel = self:updateRelationship(userId, message, sentiment)
     
-    -- Considerar hora do dia
-    local hour = tonumber(os.date("%H"))
-    local timeOfDay = hour >= 5 and hour < 12 and "morning" or
-                     hour >= 12 and hour < 18 and "afternoon" or
-                     hour >= 18 and hour < 22 and "evening" or
-                     "night"
-    
-    -- Aplicar modificadores de energia baseados na hora
-    local energyMod = self.moodFactors.timeOfDay[timeOfDay].energy or 0
-    mood.energy = math.max(0, math.min(100, mood.energy + energyMod))
-    
-    -- Determinar novo humor considerando múltiplos fatores
+    -- Determinar novo humor baseado em vários fatores
     local newMood = "NEUTRAL"
-    local currentEmotion = self.baseEmotions[mood.current]
     
-    -- Calcular intensidade emocional
-    local emotionalIntensity = math.abs(sentiment) * self.personalityFactors.emotionalIntensity
-    
-    -- Aplicar inércia emocional (resistência a mudanças)
-    if os.time() - mood.lastMoodChange < 300 then -- 5 minutos
-        emotionalIntensity = emotionalIntensity * (1 - self.personalityFactors.moodInertia)
-    end
-    
-    -- Selecionar humor baseado em múltiplos fatores
-    if sentiment >= 2 * emotionalIntensity then
-        if mood.friendship > 90 and mood.energy > 70 then
+    if sentiment >= 2 then
+        if mood.friendship > 90 then
             newMood = "LOVING"
-        elseif mood.friendship > 70 and mood.social > 60 then
+        elseif mood.friendship > 70 then
             newMood = "PROTECTIVE"
-        elseif mood.energy > 80 then
-            newMood = "EXCITED"
+        elseif mood.friendship > 50 then
+            newMood = "PLAYFUL"
         else
             newMood = "HAPPY"
         end
-    elseif sentiment >= 1 * emotionalIntensity then
+    elseif sentiment >= 1 then
         if mood.dailyInteractions > 10 then
             newMood = "COMFORTABLE"
-        elseif mood.energy > 70 then
-            newMood = "PLAYFUL"
         else
-            newMood = "GRATEFUL"
+            newMood = "EXCITED"
         end
-    elseif sentiment <= -2 * emotionalIntensity then
+    elseif sentiment <= -2 then
         if mood.friendship > 70 then
             newMood = "WORRIED"
-        elseif mood.energy > 60 then
-            newMood = "ANGRY"
         else
-            newMood = "STRESSED"
+            newMood = "ANGRY"
         end
-    elseif sentiment <= -1 * emotionalIntensity then
+    elseif sentiment <= -1 then
         if mood.friendship > 60 then
             newMood = "SAD"
-        elseif mood.social < 40 then
-            newMood = "UNCOMFORTABLE"
         else
-            newMood = "ANNOYED"
+            newMood = "JEALOUS"
         end
     elseif timeElapsed > 86400 then -- 24 horas
         newMood = "MISSING"
     elseif timeElapsed > 300 then -- 5 minutos
-        if mood.friendship > 50 and mood.energy > 50 then
+        if mood.friendship > 50 then
             newMood = "CURIOUS"
-        elseif mood.energy < 30 then
-            newMood = "TIRED"
         else
             newMood = "BORED"
         end
     end
     
-    -- Se estiver muito cansada, aumenta chance de humores mais calmos
-    if mood.emotionalStamina < 30 then
-        if math.random() > 0.7 then
-            newMood = "TIRED"
-        end
-    end
-    
     -- Registrar mudança de humor
     if mood.current ~= newMood then
-        -- Guardar humor anterior
-        mood.previousMood = mood.current
-        
-        -- Registrar mudança
         table.insert(self.moodHistory[userId], {
             from = mood.current,
             to = newMood,
             timestamp = os.time(),
-            reason = message,
-            energy = mood.energy,
-            social = mood.social,
-            intensity = emotionalIntensity
+            reason = message
         })
-        
-        -- Atualizar humor atual
         mood.current = newMood
         mood.lastMoodChange = os.time()
-        mood.moodDuration = 0
-    else
-        mood.moodDuration = mood.moodDuration + timeElapsed
     end
-    
-    -- Atualizar stamina emocional
-    local emotionData = self.baseEmotions[newMood]
-    mood.emotionalStamina = math.max(0, math.min(100, 
-        mood.emotionalStamina - math.abs(emotionData.energy) + 
-        (timeElapsed > 300 and 10 or 0) -- Recuperar stamina após 5 minutos
-    ))
     
     mood.lastInteraction = os.time()
     
@@ -455,10 +369,7 @@ function EmotionalSystem:updateMood(userId, message)
         mood = self.baseEmotions[mood.current].name,
         relationship = relationshipLevel,
         friendship = mood.friendship,
-        trust = mood.trust,
-        energy = mood.energy,
-        social = mood.social,
-        emotionalStamina = mood.emotionalStamina
+        trust = mood.trust
     }
 end
 
@@ -527,18 +438,6 @@ local function createConversationContext(newMessage, currentUserId)
     -- Garantir que newMessage não seja nil
     newMessage = newMessage or ""
     
-    -- Garantir que currentUserId seja um valor válido
-    if not currentUserId then
-        currentUserId = 0
-        print_debug("Warning: currentUserId is nil, using default value 0")
-    end
-    
-    -- Garantir que o usuário tenha um estado emocional inicializado
-    EmotionalSystem:initializeMood(currentUserId)
-    
-    local emotionalContext = EmotionalSystem:getEmotionalContext(currentUserId)
-    print_debug("Emotional context generated for user:", currentUserId)
-    
     local context = string.format([[[
 Você é Zara, uma garota de 17 anos genuína e carismática. Sua personalidade:
 - Determinada e autêntica, sempre expressa suas opiniões com sinceridade
@@ -572,7 +471,7 @@ Regras de Comportamento:
 
 %s
 
-]], emotionalContext)
+]], EmotionalSystem:getEmotionalContext(currentUserId or 0))
     
     -- Verificar se a mensagem atual está censurada
     if newMessage and isCensored(newMessage) then
