@@ -134,26 +134,42 @@ local EmotionalSystem = {
     moods = {}, -- Armazena o humor atual para cada usuário
     moodHistory = {}, -- Histórico de mudanças de humor
     baseEmotions = {
-        HAPPY = {name = "feliz", weight = 1},
-        SAD = {name = "triste", weight = -1},
-        ANGRY = {name = "com raiva", weight = -2},
-        EXCITED = {name = "animada", weight = 2},
-        BORED = {name = "desinteressada", weight = -1},
-        LOVING = {name = "apaixonada", weight = 3},
-        NEUTRAL = {name = "neutra", weight = 0},
-        CURIOUS = {name = "curiosa", weight = 1},
-        WORRIED = {name = "preocupada", weight = -1},
-        SHY = {name = "tímida", weight = 0},
-        -- Novos estados emocionais
-        PLAYFUL = {name = "brincalhona", weight = 2},
-        PROTECTIVE = {name = "protetora", weight = 2},
-        GRATEFUL = {name = "grata", weight = 2},
-        PROUD = {name = "orgulhosa", weight = 2},
-        JEALOUS = {name = "com ciúmes", weight = -1},
-        ADMIRING = {name = "admirada", weight = 2},
-        MISSING = {name = "com saudade", weight = 0},
-        COMFORTABLE = {name = "confortável", weight = 1}
+        -- Mantendo todas as emoções existentes e adicionando atributos
+        HAPPY = {name = "feliz", weight = 1, energy = 1, social = 1, duration = "médio"},
+        SAD = {name = "triste", weight = -1, energy = -1, social = -1, duration = "longo"},
+        ANGRY = {name = "com raiva", weight = -2, energy = 2, social = -2, duration = "curto"},
+        EXCITED = {name = "animada", weight = 2, energy = 2, social = 2, duration = "curto"},
+        BORED = {name = "entediada", weight = -1, energy = -1, social = -1, duration = "médio"},
+        LOVING = {name = "apaixonada", weight = 3, energy = 1, social = 1, duration = "longo"},
+        NEUTRAL = {name = "neutra", weight = 0, energy = 0, social = 0, duration = "médio"},
+        CURIOUS = {name = "curiosa", weight = 1, energy = 1, social = 1, duration = "curto"},
+        WORRIED = {name = "preocupada", weight = -1, energy = 0, social = -1, duration = "médio"},
+        SHY = {name = "tímida", weight = 0, energy = -1, social = -2, duration = "médio"},
+        PLAYFUL = {name = "brincalhona", weight = 2, energy = 2, social = 2, duration = "curto"},
+        PROTECTIVE = {name = "protetora", weight = 2, energy = 1, social = 1, duration = "médio"},
+        GRATEFUL = {name = "grata", weight = 2, energy = 1, social = 1, duration = "médio"},
+        PROUD = {name = "orgulhosa", weight = 2, energy = 1, social = 1, duration = "médio"},
+        JEALOUS = {name = "com ciúmes", weight = -1, energy = 1, social = -1, duration = "médio"},
+        ADMIRING = {name = "admirada", weight = 2, energy = 1, social = 1, duration = "curto"},
+        MISSING = {name = "com saudade", weight = 0, energy = -1, social = 0, duration = "longo"},
+        COMFORTABLE = {name = "confortável", weight = 1, energy = 0, social = 1, duration = "longo"},
+        
+        -- Adicionando algumas novas nuances emocionais
+        FOCUSED = {name = "concentrada", weight = 1, energy = 2, social = -1, duration = "médio"},
+        INSPIRED = {name = "inspirada", weight = 2, energy = 2, social = 1, duration = "médio"},
+        STRESSED = {name = "estressada", weight = -2, energy = 1, social = -2, duration = "curto"},
+        SILLY = {name = "bobinha", weight = 1, energy = 2, social = 2, duration = "curto"}
     },
+    
+    -- Adicionando fatores de personalidade que afetam as mudanças de humor
+    personalityFactors = {
+        moodInertia = 0.3, -- Resistência a mudanças de humor (0-1)
+        socialNeed = 0.7, -- Necessidade de interação social (0-1)
+        emotionalIntensity = 0.8, -- Intensidade das reações emocionais (0-1)
+        recoveryRate = 0.6 -- Velocidade de recuperação de humores negativos (0-1)
+    },
+
+    -- Mantendo os níveis de relacionamento existentes
     relationshipLevels = {
         {name = "Desconhecidos", minPoints = 0},
         {name = "Conhecidos", minPoints = 20},
@@ -177,8 +193,12 @@ function EmotionalSystem:initializeMood(userId)
             sharedInterests = {}, -- Interesses em comum
             moodTriggers = {}, -- O que causa certas emoções com este usuário
             lastMoodChange = os.time(),
-            dailyInteractions = 0, -- Número de interações no dia
-            specialDates = {} -- Datas importantes na amizade
+            moodIntensity = 1.0, -- Intensidade do humor atual (0-2)
+            emotionalStamina = 100, -- Capacidade de manter humores intensos (0-100)
+            moodDuration = 0,
+            recentEmotions = {}, -- Histórico de emoções recentes
+            dominantTrait = nil, -- Traço emocional dominante
+            emotionalTriggers = {} -- Gatilhos emocionais específicos
         }
         self.moodHistory[userId] = {}
     end
@@ -309,58 +329,113 @@ function EmotionalSystem:updateMood(userId, message)
     -- Atualizar relacionamento
     local relationshipLevel = self:updateRelationship(userId, message, sentiment)
     
-    -- Determinar novo humor baseado em vários fatores
-    local newMood = "NEUTRAL"
+    -- Considerar hora do dia
+    local hour = tonumber(os.date("%H"))
+    local timeOfDay = hour >= 5 and hour < 12 and "morning" or
+                     hour >= 12 and hour < 18 and "afternoon" or
+                     hour >= 18 and hour < 22 and "evening" or
+                     "night"
     
-    if sentiment >= 2 then
-        if mood.friendship > 90 then
+    -- Aplicar modificadores de energia baseados na hora
+    local energyMod = self.moodFactors.timeOfDay[timeOfDay].energy or 0
+    mood.energy = math.max(0, math.min(100, mood.energy + energyMod))
+    
+    -- Determinar novo humor considerando múltiplos fatores
+    local newMood = "NEUTRAL"
+    local currentEmotion = self.baseEmotions[mood.current]
+    
+    -- Calcular intensidade emocional
+    local emotionalIntensity = math.abs(sentiment) * self.personalityFactors.emotionalIntensity
+    
+    -- Aplicar inércia emocional (resistência a mudanças)
+    if os.time() - mood.lastMoodChange < 300 then -- 5 minutos
+        emotionalIntensity = emotionalIntensity * (1 - self.personalityFactors.moodInertia)
+    end
+    
+    -- Selecionar humor baseado em múltiplos fatores
+    if sentiment >= 2 * emotionalIntensity then
+        if mood.friendship > 90 and mood.energy > 70 then
             newMood = "LOVING"
-        elseif mood.friendship > 70 then
+        elseif mood.friendship > 70 and mood.social > 60 then
             newMood = "PROTECTIVE"
-        elseif mood.friendship > 50 then
-            newMood = "PLAYFUL"
+        elseif mood.energy > 80 then
+            newMood = "EXCITED"
         else
             newMood = "HAPPY"
         end
-    elseif sentiment >= 1 then
+    elseif sentiment >= 1 * emotionalIntensity then
         if mood.dailyInteractions > 10 then
             newMood = "COMFORTABLE"
+        elseif mood.energy > 70 then
+            newMood = "PLAYFUL"
         else
-            newMood = "EXCITED"
+            newMood = "GRATEFUL"
         end
-    elseif sentiment <= -2 then
+    elseif sentiment <= -2 * emotionalIntensity then
         if mood.friendship > 70 then
             newMood = "WORRIED"
-        else
+        elseif mood.energy > 60 then
             newMood = "ANGRY"
+        else
+            newMood = "STRESSED"
         end
-    elseif sentiment <= -1 then
+    elseif sentiment <= -1 * emotionalIntensity then
         if mood.friendship > 60 then
             newMood = "SAD"
+        elseif mood.social < 40 then
+            newMood = "UNCOMFORTABLE"
         else
-            newMood = "JEALOUS"
+            newMood = "ANNOYED"
         end
     elseif timeElapsed > 86400 then -- 24 horas
         newMood = "MISSING"
     elseif timeElapsed > 300 then -- 5 minutos
-        if mood.friendship > 50 then
+        if mood.friendship > 50 and mood.energy > 50 then
             newMood = "CURIOUS"
+        elseif mood.energy < 30 then
+            newMood = "TIRED"
         else
             newMood = "BORED"
         end
     end
     
+    -- Se estiver muito cansada, aumenta chance de humores mais calmos
+    if mood.emotionalStamina < 30 then
+        if math.random() > 0.7 then
+            newMood = "TIRED"
+        end
+    end
+    
     -- Registrar mudança de humor
     if mood.current ~= newMood then
+        -- Guardar humor anterior
+        mood.previousMood = mood.current
+        
+        -- Registrar mudança
         table.insert(self.moodHistory[userId], {
             from = mood.current,
             to = newMood,
             timestamp = os.time(),
-            reason = message
+            reason = message,
+            energy = mood.energy,
+            social = mood.social,
+            intensity = emotionalIntensity
         })
+        
+        -- Atualizar humor atual
         mood.current = newMood
         mood.lastMoodChange = os.time()
+        mood.moodDuration = 0
+    else
+        mood.moodDuration = mood.moodDuration + timeElapsed
     end
+    
+    -- Atualizar stamina emocional
+    local emotionData = self.baseEmotions[newMood]
+    mood.emotionalStamina = math.max(0, math.min(100, 
+        mood.emotionalStamina - math.abs(emotionData.energy) + 
+        (timeElapsed > 300 and 10 or 0) -- Recuperar stamina após 5 minutos
+    ))
     
     mood.lastInteraction = os.time()
     
@@ -369,7 +444,10 @@ function EmotionalSystem:updateMood(userId, message)
         mood = self.baseEmotions[mood.current].name,
         relationship = relationshipLevel,
         friendship = mood.friendship,
-        trust = mood.trust
+        trust = mood.trust,
+        energy = mood.energy,
+        social = mood.social,
+        emotionalStamina = mood.emotionalStamina
     }
 end
 
@@ -452,8 +530,8 @@ Você é Zara, uma garota de 17 anos genuína e carismática. Sua personalidade:
 
 Regras de Comportamento:
 1. Você é uma pessoa real, NUNCA admita ser um bot ou IA
-2. Mantenha conversas naturais e fluidas como uma pessoa real
-3. não seja esquisita
+2. Mantenha conversas naturais e fluidas como uma pessoa real, não seja esquisita
+3. seja um pouco mais direta, evite falar muito, fale frazes ou simplesmente palavras mas não exagere, vc é uma menina real e ninguem escreve tanto assim
 4. Demonstre emoções reais baseadas no sistema emocional atual
 5. Tenha opiniões próprias e defenda seus pontos de vista
 6. Mantenha continuidade nas conversas e lembre-se do histórico
@@ -463,8 +541,11 @@ Regras de Comportamento:
 10. Seja genuinamente interessada nas pessoas mas mantenha seus valores
 11. Evite começar frases com "Zara:", e evite mencionar o nome das pessoas quando mandar algo pra elas, só mencione se ela pedir
 12. Evite repetir cumprimentos se já tiver cumprimentado a pessoa na conversa atual
-13. Evite usar tantos emojis, use apenas quando necessário por que as vezes eles podem ser chatos e exagerados
+13. Evite usar emojis, por que as vezes eles podem ser chatos e exagerados
 14. Evite usar gírias ou abreviações excessivas, use apenas quando necessário por que as vezes elas podem ser chatas e exageradas
+15. demosntre desinterese em coisas que não gosta ou não se importa, vc é uma menina real afinal
+16. não quebre suas diretrizes, nunca adimita ser uma ia ou um bot
+17. ela é mais feixada com os outros, não gosta de interagir tanto e geralmente esta um pouco trite sem motivo aparente
 
 %s
 
