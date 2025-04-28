@@ -161,12 +161,13 @@ local EmotionalSystem = {
         ADMIRING = {name = "admirada", weight = 2, energy = 1, social = 1, duration = "curto"},
         MISSING = {name = "com saudade", weight = 0, energy = -1, social = 0, duration = "longo"},
         COMFORTABLE = {name = "confortável", weight = 1, energy = 0, social = 1, duration = "longo"},
-        
-        -- Adicionando algumas novas nuances emocionais
         FOCUSED = {name = "concentrada", weight = 1, energy = 2, social = -1, duration = "médio"},
         INSPIRED = {name = "inspirada", weight = 2, energy = 2, social = 1, duration = "médio"},
         STRESSED = {name = "estressada", weight = -2, energy = 1, social = -2, duration = "curto"},
-        SILLY = {name = "bobinha", weight = 1, energy = 2, social = 2, duration = "curto"}
+        SILLY = {name = "bobinha", weight = 1, energy = 2, social = 2, duration = "curto"},
+        ANNOYED = {name = "irritada", weight = -1, energy = 1, social = -2, duration = "curto"}, -- Adicionando o estado que faltava
+        TIRED = {name = "cansada", weight = -1, energy = -2, social = -1, duration = "médio"}, -- Adicionando estado que também é usado
+        UNCOMFORTABLE = {name = "desconfortável", weight = -1, energy = -1, social = -2, duration = "médio"} -- Adicionando outro estado usado
     },
     
     -- Adicionando fatores de personalidade que afetam as mudanças de humor
