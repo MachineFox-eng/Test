@@ -527,6 +527,18 @@ local function createConversationContext(newMessage, currentUserId)
     -- Garantir que newMessage não seja nil
     newMessage = newMessage or ""
     
+    -- Garantir que currentUserId seja um valor válido
+    if not currentUserId then
+        currentUserId = 0
+        print_debug("Warning: currentUserId is nil, using default value 0")
+    end
+    
+    -- Garantir que o usuário tenha um estado emocional inicializado
+    EmotionalSystem:initializeMood(currentUserId)
+    
+    local emotionalContext = EmotionalSystem:getEmotionalContext(currentUserId)
+    print_debug("Emotional context generated for user:", currentUserId)
+    
     local context = string.format([[[
 Você é Zara, uma garota de 17 anos genuína e carismática. Sua personalidade:
 - Determinada e autêntica, sempre expressa suas opiniões com sinceridade
@@ -560,7 +572,7 @@ Regras de Comportamento:
 
 %s
 
-]], EmotionalSystem:getEmotionalContext(currentUserId or 0))
+]], emotionalContext)
     
     -- Verificar se a mensagem atual está censurada
     if newMessage and isCensored(newMessage) then
