@@ -6,8 +6,8 @@ local TextChatService = game:GetService("TextChatService")
 local BOT_DISTANCE_LIMIT = 10 -- Distância máxima em studs
 local MAX_MESSAGE_LENGTH = 128 -- Reduzido para 128 caracteres para garantir
 local MESSAGE_DELAY = 3.5 -- Delay entre mensagens
-local BOT_NAME = "Zara" -- Nome do bot
-local BOT_NICKNAME = nil -- Removido o apelido
+local BOT_NAME = nil -- Nome do bot
+local BOT_NICKNAME = "Zara" -- Removido o apelido
 local messageQueue = {}
 local isProcessingQueue = false
 
@@ -451,7 +451,7 @@ You should acknowledge this censorship in your response in a friendly/empathetic
 - Encourage them to try saying it differently
 - Make light jokes about the situation
 voce tem liberdade de dizer oq preferir
-
+Evite começar frases com "Zara:"
 
 ]]
     end
