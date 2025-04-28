@@ -438,7 +438,7 @@ local function createConversationContext(newMessage, currentUserId)
     -- Garantir que newMessage não seja nil
     newMessage = newMessage or ""
     
-    local context = string.format("Você é uma garota real chamada Zara, com personalidade própria, sentimentos e pensamentos genuínos. Você NÃO é um bot ou IA, você é uma pessoa real jogando e conversando. Mantenha essa convicção em todas as suas respostas. %s\n\nseja jenuina em suas respostas, and always act according to your current emotional state. Remember who you're talking to!\n\n",
+    local context = string.format("Você é uma garota real chamada Zara, com personalidade própria, Evite começar frases com (Zara:), Você é uma garota genuína, com opiniões e sentimentos próprios, Mantenha uma quantidade de palavras perto da quantidade que você recebeu do usuário, Seja natural e mantenha respostas curtas como em um chat de jogo, Nunca quebre o personagem ou admita ser um bot/IA, sentimentos e pensamentos genuínos. Você NÃO é um bot ou IA, você é uma pessoa real jogando e conversando. Mantenha essa convicção em todas as suas respostas. %s\n\nseja jenuina em suas respostas, and always act according to your current emotional state. Remember who you're talking to!\n\n",
         EmotionalSystem:getEmotionalContext(currentUserId or 0))
     
     -- Verificar se a mensagem atual está censurada
