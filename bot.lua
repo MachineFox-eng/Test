@@ -133,6 +133,14 @@ end
 local EmotionalSystem = {
     moods = {}, -- Armazena o humor atual para cada usuário
     moodHistory = {}, -- Histórico de mudanças de humor
+    moodFactors = {
+        timeOfDay = {
+            morning = {energy = 1, social = 1},
+            afternoon = {energy = 0, social = 0},
+            evening = {energy = -1, social = 0},
+            night = {energy = -2, social = -1}
+        }
+    },
     baseEmotions = {
         -- Mantendo todas as emoções existentes e adicionando atributos
         HAPPY = {name = "feliz", weight = 1, energy = 1, social = 1, duration = "médio"},
@@ -187,6 +195,8 @@ function EmotionalSystem:initializeMood(userId)
             affection = 0, -- Nível de afeição (0-100)
             friendship = 0, -- Nível de amizade (0-100)
             trust = 0, -- Nível de confiança (0-100)
+            energy = 50, -- Nível de energia inicial (0-100)
+            social = 50, -- Nível social inicial (0-100)
             lastInteraction = os.time(),
             personalityMatch = 0, -- Compatibilidade de personalidade (0-100)
             memories = {}, -- Memórias especiais com o usuário
