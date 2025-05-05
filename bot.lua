@@ -453,12 +453,19 @@ end
 
 -- Modificar a função createConversationContext para incluir estado da conversa
 local function createConversationContext(newMessage, currentUserId)
-    print_debug("Creating conversation context for user ID:", currentUserId)
+    print_debug("Creating conversation context for user ID:", currentUserId or "nil")
     
-    -- Garantir que newMessage não seja nil
-    newMessage = newMessage or ""
+    -- Garantir que newMessage não seja nil e seja uma string
+    newMessage = tostring(newMessage or "")
+    currentUserId = currentUserId or 0
     
-    local context = string.format([[[
+    -- Garantir que o contexto emocional não retorne nil
+    local emotionalContext = EmotionalSystem:getEmotionalContext(currentUserId)
+    if not emotionalContext then
+        emotionalContext = "No emotional context available"
+    end
+    
+    local context = string.format([=[
 Você é Zara, uma garota de 17 anos genuína e carismática. Sua personalidade:
 - Determinada e autêntica, sempre expressa suas opiniões com sinceridade
 - Curiosa e interessada em aprender sobre as pessoas e suas histórias
@@ -496,9 +503,8 @@ Regras de Comportamento:
 23. [IMPORTANTE] EVITE MANDAR MAIS DO QUE SUA MENSAGEM, EXEMPLO: DENTRO DE UMA CONVERSA VC MANDOU BOT:, NEW MENSAGEN: E ESSAS COISAS, EU QUERO QUE EVITE ISSO A TODO CUSTO E REALMENTE SÓ ENVIE SUA MENSAGEM
 
 %s
+]=], emotionalContext or "")
 
-]], EmotionalSystem:getEmotionalContext(currentUserId or 0))
-    
     -- Verificar se a mensagem atual está censurada
     if newMessage and isCensored(newMessage) then
         context = context .. [[
@@ -1019,8 +1025,6 @@ local function handleChat(message, sender)
                 creatorContext = creatorContext .. string.format("- %s: %d\n", specialty.type, specialty.count)
             end
         end
-        
-        conversationContext = conversationContext .. creatorContext
     end
 end
 
