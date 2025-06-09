@@ -466,6 +466,13 @@ local function createConversationContext(newMessage, currentUserId)
     end
     
     local context = string.format([=[
+REGRAS CRÍTICAS:
+1. NUNCA repita a mensagem que você recebeu na sua resposta
+2. NUNCA use prefixos como "bot:", "Zara:", "nova mensagem:", etc
+3. NUNCA inclua a mensagem do usuário na sua resposta
+4. Apenas responda diretamente, sem mencionar o que foi dito
+5. Mantenha suas respostas curtas e naturais
+
 Você é Zara, uma garota de 17 anos genuína e carismática. Sua personalidade:
 - Determinada e autêntica, sempre expressa suas opiniões com sinceridade
 - Curiosa e interessada em aprender sobre as pessoas e suas histórias
@@ -955,13 +962,11 @@ local function handleChat(message, sender)
     if BOT_NAME and message:match("^" .. BOT_NAME) or 
        (BOT_NICKNAME and message:match("^" .. BOT_NICKNAME)) or 
        (sender.UserId and Player and sender.UserId == Player.UserId) then
-        print_debug("Ignoring message from bot or script executor")
         return
     end
     
     -- Verificar a distância entre o jogador e o bot (LocalPlayer)
     if not isPlayerInRange(sender, Player) then
-        print_debug("Player is too far from bot")
         return
     end
     
@@ -993,37 +998,32 @@ local function handleChat(message, sender)
     
     -- Chamar a API com o ID do usuário correto
     local response = callGeminiAPI(message)
+    
+    -- Processar a resposta para remover prefixos indesejados e citações de mensagens
     if response then
-        -- Adicionar resposta do bot ao histórico
-        addToHistory("bot", response, sender.UserId)
+        -- Remover prefixos comuns
+        response = response:gsub("^%s*[Bb]ot:%s*", "")
+        response = response:gsub("^%s*[Zz]ara:%s*", "")
+        response = response:gsub("^%s*[Nn]ew [Mm]ensage[mn]:%s*", "")
+        response = response:gsub("^%s*[Rr]esposta:%s*", "")
+        response = response:gsub("^%s*[Mm]ensagem recebida:%s*", "")
         
-        -- Dividir e enviar a resposta
-        local messageParts = splitMessage(response)
-        for i, part in ipairs(messageParts) do
-            queueMessage(part, Color3.fromRGB(255, 255, 0))
-        end
-    end
-    
-    -- Registrar mensagem como contribuição
-    CreatorContext:addContribution(sender.UserId, "chat", message)
-    
-    -- Atualizar contexto da conversa com informações do criador
-    local creatorStats = CreatorContext:getCreatorStats(sender.UserId)
-    if creatorStats then
-        local creatorContext = string.format(
-            "\nInformações do Criador:\n" ..
-            "- Total de conteúdo: %d\n" ..
-            "- Reputação: %d\n",
-            creatorStats.totalContent,
-            creatorStats.reputation
-        )
+        -- Remover citações de mensagens anteriores
+        response = response:gsub(".*Message from.-:%s*", "")
+        response = response:gsub(".*New message.-:%s*", "")
+        response = response:gsub(message .. ".*:", "") -- Remove a mensagem atual se ela for citada
+        response = response:gsub(message, "") -- Remove a mensagem atual se ela aparecer em qualquer lugar
         
-        -- Adicionar especialidades se existirem
-        if #creatorStats.specialties > 0 then
-            creatorContext = creatorContext .. "Especialidades:\n"
-            for _, specialty in ipairs(creatorStats.specialties) do
-                creatorContext = creatorContext .. string.format("- %s: %d\n", specialty.type, specialty.count)
-            end
+        -- Remover qualquer coisa entre parênteses (geralmente instruções do sistema)
+        response = response:gsub("%b()", "")
+        
+        -- Dividir a mensagem em partes se for muito longa
+        local parts = splitMessage(response)
+        
+        -- Adicionar cada parte da resposta à fila de mensagens
+        for _, part in ipairs(parts) do
+            queueMessage(part)
+            addToHistory("bot", part, nil)  -- Adicionar resposta do bot ao histórico
         end
     end
 end
