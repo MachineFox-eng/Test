@@ -29,9 +29,14 @@ NoBodyNearby = true,
 PermanentDeath = true,
 Hats = {
 ["Torso"] = {
+{ MeshId = "110684113028749", Names = {"Torso"}, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "70661572547971" },
 {Texture = "70661572547971q", Mesh = "110684113028749q", Name = "MeshPartAccessory", Offset = CFrame.Angles(0, 0, -0.25)},
 {Texture = "70661572547971", Mesh = "110684113028749", Name = "Black", Offset = CFrame.Angles(0, 0, 0)},
 {Texture = "70661572547971q", Mesh = "110684113028749q", Name = "Accessory (Toorso)", Offset = CFrame.Angles(0, 0, 0)},
+{ MeshId = "110684113028749", Names = {"Torso"}, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "70661572547971" },
+{ MeshId = "125405780718494", Names = { "Left Arm", "Right Arm"}, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "136752500636691" },
+{ MeshId = "125405780718494", Names = { "Left Leg", "Right Leg" }, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "136752500636691" },
+{ MeshId = "14255522247", Names = { "Left Arm", "Right Arm"}, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "14255543546" },
 },
 ["Right Arm"] = {
 {Texture = "129264637819824", Mesh = "121342985816617", Name = "Accessory (SnakeRight)", Offset = CFrame.Angles(0, 3.15, 1.57)},
