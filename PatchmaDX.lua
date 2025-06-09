@@ -35,7 +35,7 @@ ________________________________________________________________________
 -- mloopplay(file) for loop playing a file
 -- mplaylist(song1, song2, song3, ...) for a playlist
 -- mloopplaylist(song1, song2, song3, ...) for looping a playlist
--- mskip(number) to skip a specified number of songs
+-- mskip(number) to skip a specified number of songs 
 -----------------------------------------------------------------------
        
 ]]
@@ -172,7 +172,28 @@ local tclear=table.clear
 local tclone=table.clone
 local tfind=table.find
 local tunpack=table.unpack
-
+local CF = {
+    N = CFrame.new,
+    A = CFrame.Angles
+} 
+local M = {
+    S = math.sin,
+    R = math.rad
+}
+local jointMap = {
+    RJ = "RootJoint",
+    NK = "Neck", 
+    RS = "Right Shoulder",
+    LS = "Left Shoulder",
+    RH = "Right Hip",
+    LH = "Left Hip"
+}
+local function Animate(joint, cf, speed, interpolation)
+    local targetJoint = getJoint(jointMap[joint])
+    if targetJoint then
+        targetJoint.C0 = Lerp(targetJoint.C0, cf, deltaTime)
+    end
+end
 --the script doesnt have to read global varaibles every time to get them
 --why not have them saved in local varaibles for faster access times
 local next=next
@@ -183,9 +204,11 @@ local typeof=typeof
 local game=game
 
 local i=Instance.new 
+
 local v2=Vector2.new 
 local v3=Vector3.new
-local c3=Color3.new 
+local c3=Color3.new
+
 local cf=CFrame.new
 local cfl=CFrame.lookAt
 local angles=CFrame.fromEulerAngles --faster than .Angles
@@ -205,6 +228,9 @@ local cf_0=cf(0,0,0)
 local v3_xz=v3_101*10
 local v3_xzL=v3_101*250.1
 local v3_net=v3_010*25.01
+
+
+
 
 --not "local function rs" to not assign debug names
 local rs=function(l) 
@@ -2656,18 +2682,13 @@ btn("nameless animations V8", function()
     		idle = function()
         		local Ychg = velYchg()/20
         
-        		RootJoint.C0 = Lerp(RootJoint.C0,cfMul(cf(0, 2.8+0.05*math.sin(sine*43), 1.3),angles(math.rad(27), 0, 0)),deltaTime)
-        
-        		Neck.C0 = Lerp(Neck.C0,cfMul(cf(0, 1.6+0.01*math.sin(sine*46), -0.03),angles(math.rad(-2-4*math.sin(sine*55)), 0, 0)),deltaTime)
-        
-        		RightShoulder.C0 = Lerp(RightShoulder.C0,cfMul(cf(1.2, 0.9+0.008*math.sin(sine*46), 0.1),angles(math.rad(189+0.01*math.sin(sine*55)), math.rad(-31+0.6*math.sin(sine*46)), math.rad(-50+0.07*math.sin(sine*24)))),deltaTime)
-        
-        		LeftShoulder.C0 = Lerp(LeftShoulder.C0,cfMul(cf(-1.2, 0.9, 0.1),angles(math.rad(189+0.01*math.sin(sine*55)), math.rad(31+0.6*math.sin(sine*46)), math.rad(50+0.07*math.sin(sine*24)))),deltaTime)
-        
-        		RightHip.C0 = Lerp(RightHip.C0,cfMul(cf(0.3, 2.3, -0.1),angles(math.rad(120), 0, math.rad(-22))),deltaTime)
-        
-        		LeftHip.C0 = Lerp(LeftHip.C0,cfMul(cf(-0.4, 2+0*math.sin(sine*24), 0),angles(math.rad(85+2*math.sin(sine*43)), 0, math.rad(9))),deltaTime)
-    		end
+			Animate('RJ',CF.N(0+0*M.S(Sine/24),0+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(0+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+			Animate('NK',CF.N(4+3*M.S(Sine/8),3+4*M.S(Sine/7), 9+4*M.S(Sine/2)) * CF.A(M.R(56+7*M.S(Sine/8)), M.R(5+6*M.S(Sine/7)) ,M.R(5+3*M.S(Sine/2))),0.2,'Lerp')
+			Animate('RS',CF.N(1.45+0*M.S(Sine/24),0.5+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(0+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+			Animate('LS',CF.N(-1.45+0*M.S(Sine/24),0.5+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(0+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+			Animate('RH',CF.N(0.45+0*M.S(Sine/24),-1.95+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(0+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')
+			Animate('LH',CF.N(-0.45+0*M.S(Sine/24),-1.95+0*M.S(Sine/24), 0+0*M.S(Sine/24)) * CF.A(M.R(0+0*M.S(Sine/24)), M.R(0+0*M.S(Sine/24)) ,M.R(0+0*M.S(Sine/24))),0.2,'Lerp')   		
+		end
 	})
 	addmode("x", {
 		modeEntered = function()
