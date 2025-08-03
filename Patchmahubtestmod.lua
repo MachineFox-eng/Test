@@ -177,8 +177,8 @@ local accessorylimbs={
 	{meshid="90736849096372",textureid="",C0=angles(0,0,1.5707963267948966),Name="Left Arm"},
 	{meshid="105141400603933",textureid="",C0=angles(0,0,1.5707963267948966),Name="Right Arm"},
 
-	{meshid="11263221350",textureid="11263219250",C0=angles(1.5707963267948966,0,1.5707963267948966),Name="Left Arm"},
-	{meshid="11159370334",textureid="11159284657",C0=angles(-1.5707963267948966,0,1.5707963267948966),Name="Right Arm"},
+	{meshid="125405780718494",textureid="136752500636691",C0=angles(1.5707963267948966,0,1.5707963267948966),Name="Left Arm"},
+	{meshid="125405780718494",textureid="136752500636691",C0=angles(-1.5707963267948966,0,1.5707963267948966),Name="Right Arm"},
 
 	{meshid="14255522247",textureid="",C0=angles(1.5707963267948966,0,1.5707963267948966),Name="Left Arm"},
 	{meshid="14255522247",textureid="",C0=angles(-1.5707963267948966,0,1.5707963267948966),Name="Right Arm"},
@@ -198,14 +198,14 @@ local accessorylimbs={
 	{meshid="11159370334",textureid="11159285454",C0=angles(1.5707963267948966,0,1.5707963267948966),Name="Left Leg"},
 	{meshid="12652772399",textureid="12652775021",C0=cf(0,-0.125,0),Name="Right Leg"},
 
-	{meshid="14768684979",textureid="",C0=angles(0,0,1.5707963267948966),Name="Left Leg"},
-	{meshid="14768684979",textureid="",C0=angles(0,0,1.5707963267948966),Name="Right Leg"},
+	{meshid="125405780718494",textureid="",C0=angles(0,0,1.5707963267948966),Name="Left Leg"},
+	{meshid="125405780718494",textureid="",C0=angles(0,0,1.5707963267948966),Name="Right Leg"},
 
 	{meshid="17387586286",textureid="",C0=angles(1.5707963267948966,0,1.5707963267948966),Name="Left Leg"},
 	{meshid="17387586286",textureid="",C0=angles(-1.5707963267948966,0,1.5707963267948966),Name="Right Leg"},
 
 	{meshid="14768666349",textureid="",C0=cf_0,Name="Torso"},
-	{meshid="14241018198",textureid="",C0=cf_0,Name="Torso"},
+	{meshid="110684113028749",textureid="",C0=cf_0,Name="Torso"},
 	{meshid="13421774668",textureid="",C0=cf_0,Name="Torso"},
 	{meshid="110684113028749",textureid="",C0=cf_0,Name="Torso"},
 	{meshid="127552124837034",textureid="",C0=angles(0,0,1.5707963267948966),Name="Torso"},
