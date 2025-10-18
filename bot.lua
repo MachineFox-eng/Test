@@ -766,7 +766,7 @@ local function makeRequest(url, method, headers, body)
     end
 end
 
-local GEMINI_API_KEY = "AIzaSyDNv3wWZ9CI-scRXejYIuNSB6gtFNLgD9A"
+local GEMINI_API_KEY = "AIzaSyBCduY3o9D6ltlKR7abju2IgIx9vEsTygQ"
 local GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 local function callGeminiAPI(prompt)
